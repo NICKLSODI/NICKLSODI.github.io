@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" role="img"
+  aria-label="Air quality dashboard showing a gauge, a trend line and particle readings">
+  <defs>
+    <linearGradient id="pmBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#a85b74" />
+      <stop offset="100%" stop-color="#7d3f54" />
+    </linearGradient>
+    <linearGradient id="pmArea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f3e2e7" stop-opacity="0.55" />
+      <stop offset="100%" stop-color="#f3e2e7" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="240" fill="url(#pmBg)" />
+
+  <!-- floating particulate matter -->
+  <circle cx="60" cy="42" r="4" fill="#f3e2e7" opacity="0.55" />
+  <circle cx="104" cy="28" r="2.5" fill="#f3e2e7" opacity="0.45" />
+  <circle cx="330" cy="38" r="3.5" fill="#f3e2e7" opacity="0.5" />
+  <circle cx="282" cy="24" r="2" fill="#f3e2e7" opacity="0.4" />
+  <circle cx="366" cy="66" r="2.5" fill="#f3e2e7" opacity="0.35" />
+
+  <!-- gauge panel -->
+  <rect x="26" y="58" width="130" height="126" rx="10" fill="#ffffff" opacity="0.95" />
+  <path d="M52 146a39 39 0 0 1 78 0" fill="none" stroke="#e6c4cf" stroke-width="11"
+    stroke-linecap="round" />
+  <path d="M52 146a39 39 0 0 1 56-35" fill="none" stroke="#a85b74" stroke-width="11"
+    stroke-linecap="round" />
+  <text x="91" y="140" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+    font-size="26" font-weight="600" fill="#4a2c37">42</text>
+  <text x="91" y="167" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+    font-size="11" fill="#7d3f54">PM2.5 µg/m³</text>
+
+  <!-- trend panel -->
+  <rect x="172" y="58" width="202" height="126" rx="10" fill="#ffffff" opacity="0.95" />
+  <path d="M188 160l26-16 26 8 26-26 26 14 26-30 26 12v34H188z" fill="url(#pmArea)" />
+  <polyline points="188,160 214,144 240,152 266,126 292,140 318,110 344,122"
+    fill="none" stroke="#a85b74" stroke-width="3" stroke-linecap="round"
+    stroke-linejoin="round" />
+  <circle cx="344" cy="122" r="4.5" fill="#a85b74" />
+  <line x1="188" y1="172" x2="356" y2="172" stroke="#e6c4cf" stroke-width="1.5" />
+  <rect x="188" y="74" width="60" height="6" rx="3" fill="#e6c4cf" />
+
+  <!-- sensor readouts -->
+  <rect x="26" y="198" width="104" height="20" rx="6" fill="#ffffff" opacity="0.35" />
+  <rect x="146" y="198" width="104" height="20" rx="6" fill="#ffffff" opacity="0.25" />
+  <rect x="266" y="198" width="108" height="20" rx="6" fill="#ffffff" opacity="0.18" />
+</svg>

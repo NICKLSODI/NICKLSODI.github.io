@@ -368,9 +368,20 @@
     <section id="projects" class="section scrollspy">
       <h3 class="page-title white-text teal">Projects</h3>
       <div class="container">
+        <!-- Activity 6: filters the same projectData array Activity 5 renders
+             from, by title / description / tools. -->
+        <div class="project-search-wrap">
+          <i class="fa fa-search project-search-icon" aria-hidden="true"></i>
+          <input type="text" id="project-search" class="project-search-input"
+            placeholder="Search projects by name, tool, or keyword&hellip;"
+            aria-label="Search projects" autocomplete="off" />
+        </div>
         <!-- Activity 5: cards are built by JS from the projectData array below,
              not hardcoded here. -->
         <div id="projects-container" class="row"></div>
+        <p id="project-no-results" class="grey-text" style="display: none;">
+          No projects match your search.
+        </p>
         <div class="center-align">
           <button id="load-more-btn" type="button"
             class="btn waves-effect waves-light blue-grey">Load More</button>
@@ -648,7 +659,7 @@
     var projectData = [
       {
         title: "TCP Session Hijacking",
-        img: "/assets/img/project-ai-1.jpg",
+        img: "/assets/img/projects/tcp-hijacking.svg",
         alt: "Network security research",
         description: "A research project measuring TCP session hijacking under varying latency conditions.",
         tools: "Docker, Scapy, Python, Matplotlib",
@@ -661,7 +672,7 @@
       },
       {
         title: "PM2.5 Monitoring Dashboard",
-        img: "/assets/img/project-ml-3.jpg",
+        img: "/assets/img/projects/pm25-dashboard.svg",
         alt: "Air quality dashboard",
         description: "An internal dashboard tracking campus air quality for faculty and staff.",
         tools: "React, Grafana, MySQL",
@@ -673,7 +684,7 @@
       },
       {
         title: "Event Attendance Automation",
-        img: "/assets/img/project-python-flask3.png",
+        img: "/assets/img/projects/attendance-automation.svg",
         alt: "Automation system",
         description: "An attendance and certificate automation system for faculty events.",
         tools: "React, Node.js, MySQL",
@@ -685,7 +696,7 @@
       },
       {
         title: "Integrated Software Development",
-        img: "/assets/img/project-python-django3.png",
+        img: "/assets/img/projects/team-development.svg",
         alt: "Team web project",
         description: "A large multi-team web project built across 13 teams and 52 members.",
         tools: "React, Node.js, MySQL, Prisma, Git/GitHub",
@@ -697,7 +708,7 @@
       },
       {
         title: "Cross-Platform Mobile App",
-        img: "/assets/img/project-ml-5.jpg",
+        img: "/assets/img/projects/mobile-app.svg",
         alt: "Mobile application",
         description: "A Flutter mobile app covering UI flows, app logic, and API integration.",
         tools: "Flutter, Dart, REST APIs",
@@ -709,9 +720,17 @@
       }
     ];
 
-    // 4. How many projects are visible right now, and how many a click adds.
+    // 4. Pagination state. `visibleProjects` is the list currently being
+    //    paged through: every project by default, or just the search
+    //    matches while a query is active.
+    var visibleProjects = projectData;
     var projectsShown = 0;
     var PROJECTS_PER_PAGE = 2;
+
+    var projectsContainer = document.getElementById("projects-container");
+    var loadMoreBtn = document.getElementById("load-more-btn");
+    var noResultsMsg = document.getElementById("project-no-results");
+    var searchInput = document.getElementById("project-search");
 
     // 3. Turns one project object into the same card markup the page used
     //    to have hardcoded, and returns it as an HTML string.
@@ -751,29 +770,75 @@
       );
     }
 
-    // 3. Reads projectData, builds HTML for the next batch, and inserts it
-    //    into the #projects-container div.
+    // 3. Reads the active list (all projects, or the current search
+    //    matches), builds HTML for the next batch, and appends it into
+    //    the #projects-container div.
     function renderNextProjects() {
-      var container = document.getElementById("projects-container");
-      var nextBatch = projectData.slice(projectsShown, projectsShown + PROJECTS_PER_PAGE);
+      var nextBatch = visibleProjects.slice(projectsShown, projectsShown + PROJECTS_PER_PAGE);
 
-      var html = nextBatch.map(buildProjectCard).join("");
-      container.insertAdjacentHTML("beforeend", html);
+      projectsContainer.insertAdjacentHTML(
+        "beforeend",
+        nextBatch.map(buildProjectCard).join("")
+      );
 
       projectsShown += nextBatch.length;
 
       // Materialize needs tooltips explicitly (re-)initialized for new DOM.
       $(".tooltipped").tooltip();
 
-      // 6. Once every project has been displayed, hide the button so
-      //    there's nothing left to load.
-      var loadMoreBtn = document.getElementById("load-more-btn");
-      if (projectsShown >= projectData.length) {
-        loadMoreBtn.style.display = "none";
-      }
+      updateLoadMoreButton();
     }
 
-    document.getElementById("load-more-btn").addEventListener("click", renderNextProjects);
+    // 6. The button only exists while the active list still has projects
+    //    that aren't on screen yet - true for the full list and for a
+    //    filtered one alike. Its label says how many are left.
+    function updateLoadMoreButton() {
+      var remaining = visibleProjects.length - projectsShown;
+
+      if (remaining <= 0) {
+        loadMoreBtn.style.display = "none";
+        return;
+      }
+
+      loadMoreBtn.style.display = "";
+      loadMoreBtn.textContent =
+        "Load More (" + remaining + " more)";
+    }
+
+    // ----- Activity 6: search / filter -----
+    // Swaps in a new active list (search matches, or everything) and
+    // restarts pagination from the top of it.
+    function showProjects(list) {
+      visibleProjects = list;
+      projectsShown = 0;
+      projectsContainer.innerHTML = "";
+      noResultsMsg.style.display = list.length === 0 ? "block" : "none";
+      renderNextProjects();
+    }
+
+    function filterProjects() {
+      var query = searchInput.value.trim().toLowerCase();
+
+      if (query === "") {
+        showProjects(projectData);
+        return;
+      }
+
+      var matches = projectData.filter(function (project) {
+        var haystack = (
+          project.title + " " +
+          project.description + " " +
+          project.tools + " " +
+          project.bullets.join(" ")
+        ).toLowerCase();
+        return haystack.indexOf(query) !== -1;
+      });
+
+      showProjects(matches);
+    }
+
+    loadMoreBtn.addEventListener("click", renderNextProjects);
+    searchInput.addEventListener("input", filterProjects);
 
     // 4. Show the first two projects as soon as the page loads.
     renderNextProjects();

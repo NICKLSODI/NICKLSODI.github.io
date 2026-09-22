@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" role="img"
+  aria-label="Git branches merging back into a main line, with contributor avatars">
+  <defs>
+    <linearGradient id="teamBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4a2c37" />
+      <stop offset="100%" stop-color="#a85b74" />
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="240" fill="url(#teamBg)" />
+
+  <!-- main branch -->
+  <line x1="40" y1="120" x2="360" y2="120" stroke="#f3e2e7" stroke-width="3" />
+
+  <!-- feature branch above -->
+  <path d="M108 120c0-26 14-38 40-38h52c26 0 40 12 40 38" fill="none"
+    stroke="#e6c4cf" stroke-width="3" />
+  <!-- feature branch below -->
+  <path d="M148 120c0 26 14 38 40 38h44c26 0 40-12 40-38" fill="none"
+    stroke="#c98fa0" stroke-width="3" />
+
+  <!-- commit nodes on main -->
+  <circle cx="40" cy="120" r="8" fill="#ffffff" />
+  <circle cx="108" cy="120" r="8" fill="#ffffff" />
+  <circle cx="148" cy="120" r="8" fill="#ffffff" />
+  <circle cx="240" cy="120" r="8" fill="#ffffff" />
+  <circle cx="272" cy="120" r="8" fill="#ffffff" />
+  <circle cx="360" cy="120" r="10" fill="#ffffff" />
+
+  <!-- commits on the upper branch -->
+  <circle cx="156" cy="82" r="7" fill="#e6c4cf" />
+  <circle cx="196" cy="82" r="7" fill="#e6c4cf" />
+  <!-- commits on the lower branch -->
+  <circle cx="190" cy="158" r="7" fill="#c98fa0" />
+  <circle cx="226" cy="158" r="7" fill="#c98fa0" />
+
+  <!-- contributor avatars -->
+  <circle cx="72" cy="46" r="17" fill="#f3e2e7" />
+  <circle cx="72" cy="41" r="6" fill="#a85b74" />
+  <path d="M61 57a11 11 0 0 1 22 0z" fill="#a85b74" />
+
+  <circle cx="116" cy="46" r="17" fill="#e6c4cf" />
+  <circle cx="116" cy="41" r="6" fill="#7d3f54" />
+  <path d="M105 57a11 11 0 0 1 22 0z" fill="#7d3f54" />
+
+  <circle cx="160" cy="46" r="17" fill="#c98fa0" />
+  <circle cx="160" cy="41" r="6" fill="#4a2c37" />
+  <path d="M149 57a11 11 0 0 1 22 0z" fill="#4a2c37" />
+
+  <!-- team size marker -->
+  <rect x="186" y="32" width="56" height="28" rx="14" fill="#ffffff" opacity="0.9" />
+  <text x="214" y="51" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+    font-size="14" font-weight="600" fill="#7d3f54">+49</text>
+
+  <!-- merged release tag -->
+  <rect x="300" y="182" width="74" height="24" rx="6" fill="#ffffff" opacity="0.9" />
+  <rect x="312" y="192" width="50" height="5" rx="2.5" fill="#a85b74" />
+</svg>
